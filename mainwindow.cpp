@@ -17,7 +17,7 @@
 #include "debug.h"
 
 #define PROGRAM_NAME    "XV2 Quest Importer"
-#define PROGRAM_VERSION "0.91"
+#define PROGRAM_VERSION "1.0"
 
 #define INSTALLED_MODS_PATH "XV2INS/Installed"
 
@@ -650,7 +650,7 @@ void quest_compiler_test_multi(Xv2QuestCompiler &qc)
         Utils::CreatePath(title_path, true);
         Utils::CreatePath(dialogue_path, true);
 
-        DPRINTF("Processing %s\n", qxd_path.c_str());
+        printf("Processing %s\n", qxd_path.c_str());
         quest_compiler_test_multi(qc, qxd, out_path, title_path, dialogue_path);
     }
 
