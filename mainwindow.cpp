@@ -17,7 +17,7 @@
 #include "debug.h"
 
 #define PROGRAM_NAME    "XV2 Quest Importer"
-#define PROGRAM_VERSION "1.1"
+#define PROGRAM_VERSION "1.21"
 
 #define INSTALLED_MODS_PATH "XV2INS/Installed"
 
@@ -569,8 +569,16 @@ void quest_compiler_test_multi(Xv2QuestCompiler &comp, const QxdFile &qxd, const
 
             if (!xv2fs->LoadFile(&qeds[i], qed_path + ".qed"))
             {
-                DPRINTF("Failed to load qed %s\n", qed_path.c_str());
-                exit(-1);
+                // Fix for RBQ_2500
+                if (!xv2fs->FileExists(qed_path + ".qed"))
+                {
+                    qeds[i] = QedFile();
+                }
+                else
+                {
+                    DPRINTF("Failed to load qed %s\n", qed_path.c_str());
+                    exit(-1);
+                }
             }
         }
 
@@ -952,4 +960,9 @@ void MainWindow::onContextMenu()
         Compile(action->data().toString());
 }
 
+void MainWindow::on_actionExit_triggered()
+{
+    if (ProcessShutdown())
+        qApp->exit();
+}
 

@@ -28,6 +28,8 @@ private slots:
 
     void onContextMenu();
 
+    void on_actionExit_triggered();
+
 private:
     Ui::MainWindow *ui;
 
