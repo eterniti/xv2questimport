@@ -17,7 +17,7 @@
 #include "debug.h"
 
 #define PROGRAM_NAME    "XV2 Quest Importer"
-#define PROGRAM_VERSION "1.21"
+#define PROGRAM_VERSION "1.3"
 
 #define INSTALLED_MODS_PATH "XV2INS/Installed"
 
@@ -38,6 +38,11 @@ enum TopQuestTypeIndex
     TOP_QUEST_TFB,
     TOP_QUEST_PRB,
     TOP_QUEST_TPQ_TNM,
+    TOP_QUEST_PRD,
+    TOP_QUEST_RBD,
+    TOP_QUEST_RBS,
+    TOP_QUEST_GBB,
+    TOP_QUEST_EVT,
 
     TOP_QUEST_MAX
 };
@@ -65,6 +70,11 @@ static const std::vector<std::string> quest_files =
     "TFB/tfb_data.qxd",
     "PRB/prb_data.qxd",
     "TPQ/tpq_data.qxd",
+    "PRD/prd_data.qxd",
+    "RBD/rbd_data.qxd",
+    "RBS/rbs_data.qxd",
+    "GBB/gbb_data.qxd",
+    "EVT/evt_data.qxd"
 };
 
 static const std::vector<std::string> quest_titles =
@@ -84,6 +94,11 @@ static const std::vector<std::string> quest_titles =
     "tfb_title",
     "prb_title",
     "qs_title",
+    "prd_title",
+    "qrd_title",
+    "qrs_title",
+    "gbb_title",
+    "qet_title",
 };
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -637,9 +652,10 @@ void quest_compiler_test_multi(Xv2QuestCompiler &qc)
 {
     std::vector<std::string> qxd_files = { "BAQ/baq_data.qxd", "CHQ/chq_data.qxd", "HLQ/hlq_data.qxd",
                                            "LEQ/leq_data.qxd", "OSQ/osq_data.qxd", "RBQ/rbq_data.qxd",
-                                           "TCQ/tcq_data.qxd", "TFB/tfb_data.qxd",  "TMQ/tmq_data.qxd",
+                                           "TCQ/tcq_data.qxd", "TFB/tfb_data.qxd", "TMQ/tmq_data.qxd",
                                            "TNB/tnb_data.qxd", "TPQ/tpq_data.qxd", "TTQ/ttq_data.qxd",
-                                           "PRB/prb_data.qxd" };
+                                           "PRB/prb_data.qxd", "PRD/prd_data.qxd", "RBD/rbd_data.qxd",
+                                           "RBS/rbs_data.qxd", "GBB/gbb_data.qxd", "EVT/evt_data.qxd", };
 
 
     for (const std::string &f : qxd_files)
@@ -662,7 +678,7 @@ void quest_compiler_test_multi(Xv2QuestCompiler &qc)
         quest_compiler_test_multi(qc, qxd, out_path, title_path, dialogue_path);
     }
 
-    UPRINTF("Processed %d quests.\n", test_quest_counter); // 910
+    UPRINTF("Processed %d quests.\n", test_quest_counter); // 988
 }
 
 void MainWindow::on_actionAbout_triggered()

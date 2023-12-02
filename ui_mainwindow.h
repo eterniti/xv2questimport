@@ -41,7 +41,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(522, 365);
+        MainWindow->resize(522, 456);
         actionExit = new QAction(MainWindow);
         actionExit->setObjectName(QStringLiteral("actionExit"));
         actionAbout = new QAction(MainWindow);
@@ -64,15 +64,20 @@ public:
         new QTreeWidgetItem(questTreeWidget);
         new QTreeWidgetItem(questTreeWidget);
         new QTreeWidgetItem(questTreeWidget);
+        new QTreeWidgetItem(questTreeWidget);
+        new QTreeWidgetItem(questTreeWidget);
+        new QTreeWidgetItem(questTreeWidget);
+        new QTreeWidgetItem(questTreeWidget);
+        new QTreeWidgetItem(questTreeWidget);
         questTreeWidget->setObjectName(QStringLiteral("questTreeWidget"));
-        questTreeWidget->setGeometry(QRect(30, 30, 461, 261));
+        questTreeWidget->setGeometry(QRect(30, 30, 461, 352));
         questTreeWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
         questTreeWidget->setItemsExpandable(true);
         questTreeWidget->header()->setVisible(false);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 522, 21));
+        menuBar->setGeometry(QRect(0, 0, 522, 22));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuHelp = new QMenu(menuBar);
@@ -135,6 +140,16 @@ public:
         ___qtreewidgetitem14->setText(0, QApplication::translate("MainWindow", "Player Raid Boss", 0));
         QTreeWidgetItem *___qtreewidgetitem15 = questTreeWidget->topLevelItem(14);
         ___qtreewidgetitem15->setText(0, QApplication::translate("MainWindow", "Tournament quests", 0));
+        QTreeWidgetItem *___qtreewidgetitem16 = questTreeWidget->topLevelItem(15);
+        ___qtreewidgetitem16->setText(0, QApplication::translate("MainWindow", "Crystal Raid", 0));
+        QTreeWidgetItem *___qtreewidgetitem17 = questTreeWidget->topLevelItem(16);
+        ___qtreewidgetitem17->setText(0, QApplication::translate("MainWindow", "Extra Raid quests", 0));
+        QTreeWidgetItem *___qtreewidgetitem18 = questTreeWidget->topLevelItem(17);
+        ___qtreewidgetitem18->setText(0, QApplication::translate("MainWindow", "Million Raid quest", 0));
+        QTreeWidgetItem *___qtreewidgetitem19 = questTreeWidget->topLevelItem(18);
+        ___qtreewidgetitem19->setText(0, QApplication::translate("MainWindow", "Cross Versus", 0));
+        QTreeWidgetItem *___qtreewidgetitem20 = questTreeWidget->topLevelItem(19);
+        ___qtreewidgetitem20->setText(0, QApplication::translate("MainWindow", "Festival of Universes", 0));
         questTreeWidget->setSortingEnabled(__sortingEnabled);
 
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));

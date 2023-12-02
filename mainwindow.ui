@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>522</width>
-    <height>365</height>
+    <height>456</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>30</x>
       <y>30</y>
       <width>461</width>
-      <height>261</height>
+      <height>352</height>
      </rect>
     </property>
     <property name="contextMenuPolicy">
@@ -112,6 +112,31 @@
       <string>Tournament quests</string>
      </property>
     </item>
+    <item>
+     <property name="text">
+      <string>Crystal Raid</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Extra Raid quests</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Million Raid quest</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Cross Versus</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Festival of Universes</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -120,7 +145,7 @@
      <x>0</x>
      <y>0</y>
      <width>522</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
