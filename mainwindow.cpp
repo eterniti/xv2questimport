@@ -17,7 +17,7 @@
 #include "debug.h"
 
 #define PROGRAM_NAME    "XV2 Quest Importer"
-#define PROGRAM_VERSION "1.3"
+#define PROGRAM_VERSION "1.4"
 
 #define INSTALLED_MODS_PATH "XV2INS/Installed"
 
@@ -678,7 +678,7 @@ void quest_compiler_test_multi(Xv2QuestCompiler &qc)
         quest_compiler_test_multi(qc, qxd, out_path, title_path, dialogue_path);
     }
 
-    UPRINTF("Processed %d quests.\n", test_quest_counter); // 988
+    UPRINTF("Processed %d quests.\n", test_quest_counter); // 1042
 }
 
 void MainWindow::on_actionAbout_triggered()
