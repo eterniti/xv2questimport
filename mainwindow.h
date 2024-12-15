@@ -30,12 +30,15 @@ private slots:
 
     void on_actionExit_triggered();
 
+    void on_actionToggle_dark_mode_triggered();
+
 private:
     Ui::MainWindow *ui;
 
     Xv2QuestCompiler qc;
     QAction *compile_action;
     QAction *decompile_action;
+    QAction *delete_action;
 
     bool ProcessShutdown();
 
@@ -46,6 +49,9 @@ private:
 
     void Compile(const QString &quest);
     void Decompile(const QString &quest);
+    void DeleteEntry(const QString &quest);
+
+    void ToggleDarkTheme(bool update_config);
 };
 
 #endif // MAINWINDOW_H

@@ -29,11 +29,13 @@ class Ui_MainWindow
 public:
     QAction *actionExit;
     QAction *actionAbout;
+    QAction *actionToggle_dark_mode;
     QWidget *centralWidget;
     QTreeWidget *questTreeWidget;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuHelp;
+    QMenu *menuView;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -46,6 +48,8 @@ public:
         actionExit->setObjectName(QStringLiteral("actionExit"));
         actionAbout = new QAction(MainWindow);
         actionAbout->setObjectName(QStringLiteral("actionAbout"));
+        actionToggle_dark_mode = new QAction(MainWindow);
+        actionToggle_dark_mode->setObjectName(QStringLiteral("actionToggle_dark_mode"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         questTreeWidget = new QTreeWidget(centralWidget);
@@ -82,6 +86,8 @@ public:
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QStringLiteral("menuHelp"));
+        menuView = new QMenu(menuBar);
+        menuView->setObjectName(QStringLiteral("menuView"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -91,9 +97,11 @@ public:
         MainWindow->setStatusBar(statusBar);
 
         menuBar->addAction(menuFile->menuAction());
+        menuBar->addAction(menuView->menuAction());
         menuBar->addAction(menuHelp->menuAction());
         menuFile->addAction(actionExit);
         menuHelp->addAction(actionAbout);
+        menuView->addAction(actionToggle_dark_mode);
 
         retranslateUi(MainWindow);
 
@@ -105,6 +113,7 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "XV2 Quest Importer", 0));
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0));
         actionAbout->setText(QApplication::translate("MainWindow", "About", 0));
+        actionToggle_dark_mode->setText(QApplication::translate("MainWindow", "Toggle dark mode", 0));
         QTreeWidgetItem *___qtreewidgetitem = questTreeWidget->headerItem();
         ___qtreewidgetitem->setText(0, QApplication::translate("MainWindow", "New Column", 0));
 
@@ -154,6 +163,7 @@ public:
 
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0));
+        menuView->setTitle(QApplication::translate("MainWindow", "View", 0));
     } // retranslateUi
 
 };

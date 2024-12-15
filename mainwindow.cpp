@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QCheckBox>
 #include <QTime>
+#include <QStyleFactory>
 
 #include <map>
 
@@ -17,7 +18,7 @@
 #include "debug.h"
 
 #define PROGRAM_NAME    "XV2 Quest Importer"
-#define PROGRAM_VERSION "1.4"
+#define PROGRAM_VERSION "1.5"
 
 #define INSTALLED_MODS_PATH "XV2INS/Installed"
 
@@ -50,7 +51,8 @@ enum TopQuestTypeIndex
 enum ContextMenuTypes
 {
     CTX_MENU_DECOMPILE = 0x300,
-    CTX_MENU_COMPILE
+    CTX_MENU_COMPILE,
+    CTX_MENU_DELETE
 };
 
 static const std::vector<std::string> quest_files =
@@ -108,6 +110,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     decompile_action = nullptr;
     compile_action = nullptr;
+    delete_action = nullptr;
 }
 
 MainWindow::~MainWindow()
@@ -263,7 +266,12 @@ bool MainWindow::Initialize()
         return false;
     }
 
+    if (config.dark_theme)
+        ToggleDarkTheme(false);
+
     Xenoverse2::InitFs(Utils::QStringToStdString(config.game_directory));
+
+    config.LanguageSetup(false);
 
     if (!Xenoverse2::InitSystemFiles())
     {
@@ -678,7 +686,7 @@ void quest_compiler_test_multi(Xv2QuestCompiler &qc)
         quest_compiler_test_multi(qc, qxd, out_path, title_path, dialogue_path);
     }
 
-    UPRINTF("Processed %d quests.\n", test_quest_counter); // 1042
+    UPRINTF("Processed %d quests.\n", test_quest_counter); // 1077
 }
 
 void MainWindow::on_actionAbout_triggered()
@@ -709,6 +717,12 @@ void MainWindow::RemoveActions()
     {
         ui->questTreeWidget->removeAction(decompile_action);
         decompile_action = nullptr;
+    }
+
+    if (delete_action)
+    {
+        ui->questTreeWidget->removeAction(delete_action);
+        delete_action = nullptr;
     }
 }
 
@@ -770,6 +784,20 @@ void MainWindow::on_questTreeWidget_itemSelectionChanged()
         ui->questTreeWidget->addAction(decompile_action);
 
         connect(decompile_action, SIGNAL(triggered(bool)), this, SLOT(onContextMenu()));
+    }
+
+    if (delete_action)
+    {
+        delete_action->setData(QVariant(str));
+    }
+    else
+    {
+        delete_action = new QAction("Delete (entry only)");
+        delete_action->setData(QVariant(str));
+        delete_action->setProperty("action_type", QVariant(CTX_MENU_DELETE));
+        ui->questTreeWidget->addAction(delete_action);
+
+        connect(delete_action, SIGNAL(triggered(bool)), this, SLOT(onContextMenu()));
     }
 }
 
@@ -963,6 +991,80 @@ void MainWindow::Decompile(const QString &quest)
     UPRINTF("Export completed succesfully.\n");
 }
 
+void MainWindow::DeleteEntry(const QString &quest)
+{
+    std::string quest_std = Utils::QStringToStdString(quest, false);
+    if (!qc.RemoveQuestEntry(quest_std))
+    {
+        DPRINTF("Failed to remove the quest!\n");
+        return;
+    }
+
+    if (!qc.CommitActiveQxd())
+        return;
+
+    UPRINTF("Quest deleted successfully.\n");
+
+    for (int i = 0; i < ui->questTreeWidget->topLevelItemCount(); i++)
+    {
+        QTreeWidgetItem *topItem = ui->questTreeWidget->topLevelItem(i);
+        for (int j = 0; j < topItem->childCount(); j++)
+        {
+            QTreeWidgetItem *child = topItem->child(j);
+            if (child->data(0, Qt::UserRole) == quest)
+            {
+                topItem->removeChild(child);
+                return;
+            }
+        }
+    }
+}
+
+void MainWindow::ToggleDarkTheme(bool update_config)
+{
+    if (update_config)
+    {
+        config.dark_theme = !config.dark_theme;
+        config.Save();
+    }
+
+    static bool dark_theme = false;
+    static QPalette saved_palette;
+
+    if (!dark_theme)
+    {
+        saved_palette = qApp->palette();
+        //DPRINTF("%s\n", qApp->style()->metaObject()->className());
+
+        qApp->setStyle(QStyleFactory::create("Fusion"));
+        QPalette palette;
+        palette.setColor(QPalette::Window, QColor(53,53,53));
+        palette.setColor(QPalette::WindowText, Qt::white);
+        palette.setColor(QPalette::Base, QColor(15,15,15));
+        palette.setColor(QPalette::AlternateBase, QColor(53,53,53));
+        palette.setColor(QPalette::ToolTipBase, Qt::white);
+        palette.setColor(QPalette::ToolTipText, Qt::white);
+        palette.setColor(QPalette::Text, Qt::white);
+        palette.setColor(QPalette::Button, QColor(53,53,53));
+        palette.setColor(QPalette::ButtonText, Qt::white);
+        palette.setColor(QPalette::BrightText, Qt::red);
+
+        //palette.setColor(QPalette::Highlight, QColor(142,45,197).lighter());
+        palette.setColor(QPalette::HighlightedText, Qt::black);
+        palette.setColor(QPalette::Disabled, QPalette::Text, Qt::darkGray);
+        palette.setColor(QPalette::Disabled, QPalette::ButtonText, Qt::darkGray);
+        qApp->setPalette(palette);
+
+        dark_theme =true;
+    }
+    else
+    {
+        qApp->setStyle(QStyleFactory::create("windowsvista"));
+        qApp->setPalette(saved_palette);
+        dark_theme = false;
+    }
+}
+
 void MainWindow::onContextMenu()
 {
     QAction *action = dynamic_cast<QAction *>(QObject::sender());
@@ -974,11 +1076,20 @@ void MainWindow::onContextMenu()
 
     else if (action->property("action_type") == CTX_MENU_COMPILE)
         Compile(action->data().toString());
+
+    else if (action->property("action_type") == CTX_MENU_DELETE)
+        DeleteEntry(action->data().toString());
 }
 
 void MainWindow::on_actionExit_triggered()
 {
     if (ProcessShutdown())
         qApp->exit();
+}
+
+
+void MainWindow::on_actionToggle_dark_mode_triggered()
+{
+    ToggleDarkTheme(true);
 }
 
