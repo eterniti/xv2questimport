@@ -228,6 +228,14 @@ static bool mod_visitor(const std::string &path, bool, void *param)
             // TODO
             return true;
         }
+        else if (mod.type == X2mType::NEW_SUPERSOUL)
+        {
+            X2mSuperSoul *ss = game_costume_file->FindSuperSoul(x2m.GetModGuid());
+            if (!ss)
+                return true;
+
+            mod.ss = *ss;
+        }
 
         qc->PushMod(Utils::ToLowerCase(x2m.GetModGuid()), mod);
     }
