@@ -18,9 +18,9 @@
 #include "debug.h"
 
 #define PROGRAM_NAME    "XV2 Quest Importer"
-#define PROGRAM_VERSION "1.5"
+#define PROGRAM_VERSION "1.6"
 
-#define INSTALLED_MODS_PATH "XV2INS/Installed"
+#define INSTALLED_MODS_PATH_NEW     "data/InstallData"
 
 enum TopQuestTypeIndex
 {
@@ -231,6 +231,7 @@ static bool mod_visitor(const std::string &path, bool, void *param)
         else if (mod.type == X2mType::NEW_SUPERSOUL)
         {
             X2mSuperSoul *ss = game_costume_file->FindSuperSoul(x2m.GetModGuid());
+            DPRINTF("%s\n", x2m.GetModGuid().c_str());
             if (!ss)
                 return true;
 
@@ -241,6 +242,17 @@ static bool mod_visitor(const std::string &path, bool, void *param)
     }
 
     return true;
+}
+
+std::string MainWindow::GetInstalledModsPath()
+{
+    static std::string pre_computed;
+
+    if (pre_computed.length() != 0)
+        return pre_computed;
+
+    pre_computed = Utils::MakePathString(Utils::QStringToStdString(config.game_directory), INSTALLED_MODS_PATH_NEW);
+    return pre_computed;
 }
 
 bool MainWindow::Initialize()
@@ -371,7 +383,7 @@ bool MainWindow::Initialize()
         return false;
     }
 
-    Utils::VisitDirectory(Utils::GetAppDataPath(INSTALLED_MODS_PATH), true, false, false, mod_visitor, &qc);
+    Utils::VisitDirectory(GetInstalledModsPath(), true, false, false, mod_visitor, &qc);
 
     for (int i = 0; i < TOP_QUEST_MAX; i++)
     {
@@ -484,6 +496,9 @@ void quest_compiler_test_multi(Xv2QuestCompiler &comp, const QxdFile &qxd, const
         if (test_black_list.find(quest.name) != test_black_list.end())
             continue;
 
+        printf("Quest %s\n", quest.name.c_str());
+        fflush(stdout);
+
         QmlFile qml;
         QbtFile qbt;
         QslFile qsl;
@@ -538,6 +553,9 @@ void quest_compiler_test_multi(Xv2QuestCompiler &comp, const QxdFile &qxd, const
             DPRINTF("Failed to decompile %s\n", quest.name.c_str());
             exit(-1);
         }
+
+        //printf("Decompile OK\n");
+        //fflush(stdout);
 
         std::string qbuf = qoss.str();
 
@@ -619,6 +637,9 @@ void quest_compiler_test_multi(Xv2QuestCompiler &comp, const QxdFile &qxd, const
             exit(-1);
         }
 
+        //printf("Compile OK\n");
+        //fflush(stdout);
+
         if (qxd != comp.DebugGetActiveQxd())
         {
             comp.DebugGetActiveQxd().SaveToFile("fail.qxd");
@@ -691,6 +712,7 @@ void quest_compiler_test_multi(Xv2QuestCompiler &qc)
         Utils::CreatePath(dialogue_path, true);
 
         printf("Processing %s\n", qxd_path.c_str());
+        fflush(stdout);
         quest_compiler_test_multi(qc, qxd, out_path, title_path, dialogue_path);
     }
 
