@@ -18,7 +18,7 @@
 #include "debug.h"
 
 #define PROGRAM_NAME    "XV2 Quest Importer"
-#define PROGRAM_VERSION "1.6"
+#define PROGRAM_VERSION "1.7"
 
 #define INSTALLED_MODS_PATH_NEW     "data/InstallData"
 
@@ -44,6 +44,7 @@ enum TopQuestTypeIndex
     TOP_QUEST_RBS,
     TOP_QUEST_GBB,
     TOP_QUEST_EVT,
+    TOP_QUEST_CBF,
 
     TOP_QUEST_MAX
 };
@@ -76,7 +77,8 @@ static const std::vector<std::string> quest_files =
     "RBD/rbd_data.qxd",
     "RBS/rbs_data.qxd",
     "GBB/gbb_data.qxd",
-    "EVT/evt_data.qxd"
+    "EVT/evt_data.qxd",
+    "CBF/cbf_data.qxd"
 };
 
 static const std::vector<std::string> quest_titles =
@@ -101,6 +103,7 @@ static const std::vector<std::string> quest_titles =
     "qrs_title",
     "gbb_title",
     "qet_title",
+    "qf_title",
 };
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -231,7 +234,7 @@ static bool mod_visitor(const std::string &path, bool, void *param)
         else if (mod.type == X2mType::NEW_SUPERSOUL)
         {
             X2mSuperSoul *ss = game_costume_file->FindSuperSoul(x2m.GetModGuid());
-            DPRINTF("%s\n", x2m.GetModGuid().c_str());
+            //DPRINTF("%s\n", x2m.GetModGuid().c_str());
             if (!ss)
                 return true;
 
@@ -692,7 +695,8 @@ void quest_compiler_test_multi(Xv2QuestCompiler &qc)
                                            "TCQ/tcq_data.qxd", "TFB/tfb_data.qxd", "TMQ/tmq_data.qxd",
                                            "TNB/tnb_data.qxd", "TPQ/tpq_data.qxd", "TTQ/ttq_data.qxd",
                                            "PRB/prb_data.qxd", "PRD/prd_data.qxd", "RBD/rbd_data.qxd",
-                                           "RBS/rbs_data.qxd", "GBB/gbb_data.qxd", "EVT/evt_data.qxd", };
+                                           "RBS/rbs_data.qxd", "GBB/gbb_data.qxd", "EVT/evt_data.qxd",
+                                           "CBF/cbf_data.qxd"};
 
 
     for (const std::string &f : qxd_files)

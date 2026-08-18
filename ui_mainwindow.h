@@ -43,7 +43,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(522, 456);
+        MainWindow->resize(522, 486);
         actionExit = new QAction(MainWindow);
         actionExit->setObjectName(QStringLiteral("actionExit"));
         actionAbout = new QAction(MainWindow);
@@ -73,8 +73,9 @@ public:
         new QTreeWidgetItem(questTreeWidget);
         new QTreeWidgetItem(questTreeWidget);
         new QTreeWidgetItem(questTreeWidget);
+        new QTreeWidgetItem(questTreeWidget);
         questTreeWidget->setObjectName(QStringLiteral("questTreeWidget"));
-        questTreeWidget->setGeometry(QRect(30, 30, 461, 352));
+        questTreeWidget->setGeometry(QRect(30, 30, 461, 382));
         questTreeWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
         questTreeWidget->setItemsExpandable(true);
         questTreeWidget->header()->setVisible(false);
@@ -159,6 +160,8 @@ public:
         ___qtreewidgetitem19->setText(0, QApplication::translate("MainWindow", "Cross Versus", 0));
         QTreeWidgetItem *___qtreewidgetitem20 = questTreeWidget->topLevelItem(19);
         ___qtreewidgetitem20->setText(0, QApplication::translate("MainWindow", "Festival of Universes", 0));
+        QTreeWidgetItem *___qtreewidgetitem21 = questTreeWidget->topLevelItem(20);
+        ___qtreewidgetitem21->setText(0, QApplication::translate("MainWindow", "Cheelai Broly Friendship", 0));
         questTreeWidget->setSortingEnabled(__sortingEnabled);
 
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));

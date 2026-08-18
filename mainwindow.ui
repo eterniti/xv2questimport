@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>522</width>
-    <height>456</height>
+    <height>486</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>30</x>
       <y>30</y>
       <width>461</width>
-      <height>352</height>
+      <height>382</height>
      </rect>
     </property>
     <property name="contextMenuPolicy">
@@ -135,6 +135,11 @@
     <item>
      <property name="text">
       <string>Festival of Universes</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Cheelai Broly Friendship</string>
      </property>
     </item>
    </widget>
