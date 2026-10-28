@@ -18,7 +18,7 @@
 #include "debug.h"
 
 #define PROGRAM_NAME    "XV2 Quest Importer"
-#define PROGRAM_VERSION "1.7"
+#define PROGRAM_VERSION "1.71"
 
 #define INSTALLED_MODS_PATH_NEW     "data/InstallData"
 
